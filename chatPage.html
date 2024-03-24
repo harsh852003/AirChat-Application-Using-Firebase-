@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="ChatPage my-2">
-        <div class="chat-history">
+        <div class="chat-history chatBox">
           <ul class="m-b-0">
               <li class="clearfix">
                   <div class="message-data text-end">
@@ -62,7 +62,7 @@
       </div>
       <footer class="row mb-3 px-4 ">
         <div class="col-sm-10">
-        <input type="text" id="message" name="message" placeholder="Type Message ..." class="form-control chatbox">
+        <input type="text" id="message" name="message" placeholder="Type Message ..." class="form-control messagebox">
         </div>
         <span class="input-group-btn col-sm-1">
           <button type="button" class="btn btn-dark submit">Send</button>
@@ -106,7 +106,7 @@
     })
 
     function sendChat(){
-      var chat = $(".chatbox").val()
+      var chat = $(".messagebox").val()
       if($.trim(chat)==""){
         return false;
       }
@@ -131,12 +131,38 @@
           arr.push(childData);
         }
       });
-      //pending
       showDataOnScreen(arr);
     })
 
-    function showDataOnScreen(arr){
+    function showDataOnScreen(chats){
       console.log("hello this function is working")
+      $('.chatBox ul').html("");
+      for(let chat in chats){
+        var from_user_id = chats[chat].from;
+        var to_user_id = chats[chat].to;
+        var stored_message = chats[chat].message;
+        var message_type;
+        var bubble;
+
+        if(from_user_id == localStorage.getItem('loggedIn_user_id')){
+          message_type = 'sent';
+          bubble  = 'from-message';
+        }
+        else{
+          message_type = 'reply';
+          bubble = 'to-message';
+        }
+        $('<li class="'+message_type+' clearfix">'+
+                  '<div class="message-data text-end">'+
+                      '<span class="message-data-time">10:10 AM, Today</span>'+
+                      '<img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">'+
+                  '</div>'+
+                  '<div class="'+bubble+' message other-message float-end">'+stored_message+'</div>'+
+              '</li>'
+          ).appendTo($('.chatBox ul'))
+        $('.messagebox').val(null);  
+      }
+
     }
 
       </script>
