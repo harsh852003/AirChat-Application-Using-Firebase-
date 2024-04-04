@@ -146,20 +146,20 @@
 
         if(from_user_id == localStorage.getItem('loggedIn_user_id')){
           message_type = 'sent';
-          bubble  = 'from-message';
+          bubble  = 'my-message';
         }
         else{
           message_type = 'reply';
-          bubble = 'to-message';
+          bubble = 'other-message';
         }
-        $('<li class="'+message_type+' clearfix">'+
-                  '<div class="message-data text-end">'+
-                      '<span class="message-data-time">10:10 AM, Today</span>'+
-                      '<img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">'+
-                  '</div>'+
-                  '<div class="'+bubble+' message other-message float-end">'+stored_message+'</div>'+
-              '</li>'
-          ).appendTo($('.chatBox ul'))
+        $('.chatBox ul').append(
+        `<li class="${message_type} clearfix">
+          <div class="message-data ${message_type ==='sent'?'text-end':'text-start'}">
+              <span class="message-data-time">10:10 AM, Today</span>
+              <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+          </div>
+          <div class="message ${bubble==='my-message'? 'my-message float-end':'other-message'}">${stored_message}</div>
+       </li>`);
         $('.messagebox').val(null);  
       }
 
